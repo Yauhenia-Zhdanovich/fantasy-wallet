@@ -1,5 +1,5 @@
 import { Inject, Injectable, Optional } from '@angular/core';
-import { ETHEREUM } from './ethereum.const';
+import { ETHEREUM } from './constants/ethereum.const';
 import { Observable, from } from 'rxjs';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
