@@ -1,8 +1,9 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Inject, Injectable, NgZone } from '@angular/core';
 import { EthereumClient } from '../../ethereum/ethereum-client';
 import {
   BehaviorSubject,
   Observable,
+  catchError,
   filter,
   forkJoin,
   from,
@@ -15,7 +16,8 @@ import Web3 from 'web3';
 import {
   WETH_CONTRACT_ABI,
   WETH_CONTRACT_ADDRESS,
-} from '../../ethereum/constants/wethContract.const';
+} from '../../ethereum/contracts/constants/weth-contract.const';
+import { WEB_3 } from '../../ethereum/constants/web3.const';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +39,8 @@ export class AccountService {
 
   constructor(
     private ethereumClient: EthereumClient,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    @Inject(WEB_3) private web3: Web3
   ) {
     this.fetchInitialConnectedAddress().subscribe(address =>
       this.addressSubject.next(address)
@@ -71,16 +74,17 @@ export class AccountService {
   }
 
   public fetchWethBalance(address: string): Observable<string> {
-    // temporary!!!!!!!!!!!!! TODO: move as a standalone functionality
-    const web3 = new Web3(window.ethereum);
-    const wethContract = new web3.eth.Contract(
+    const wethContract = new this.web3.eth.Contract(
       WETH_CONTRACT_ABI,
       WETH_CONTRACT_ADDRESS
     );
-    // temporary!!!!!!!!!!!!!
 
     return from(
       wethContract.methods['balanceOf'](address).call() as Promise<string>
+    ).pipe(
+      catchError(() => {
+        return of('0');
+      })
     );
   }
 

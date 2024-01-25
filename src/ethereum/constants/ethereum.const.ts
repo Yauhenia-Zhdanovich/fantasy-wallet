@@ -1,8 +1,9 @@
 import { InjectionToken } from '@angular/core';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 
 export const ETHEREUM = new InjectionToken<string>('ETHEREUM');
 
-export function ethereumFactory() {
+export function ethereumFactory(): MetaMaskInpageProvider {
   const ethereum = window.ethereum;
 
   if (!ethereum) {
