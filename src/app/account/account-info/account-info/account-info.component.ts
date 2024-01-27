@@ -1,11 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { Observable, filter, switchMap } from 'rxjs';
-import { AddressService } from '../../../../ethereum/address.service';
+import { AddressService } from '../../../../ethereum/services/address.service';
 import { CommonModule } from '@angular/common';
 import { ConvertFromWeiPipe } from '../../../../ethereum/pipes/convert-from-wei.pipe';
 import { CONTRACTS } from '../../../../ethereum/contracts/contract.token';
 import { SmartContractService } from '../../../../ethereum/contracts/abstract-contract.service';
-import { EthereumBalanceService } from '../../../../ethereum/ethereum-balance.service';
+import { EthereumBalanceService } from '../../../../ethereum/services/ethereum-balance.service';
 
 @Component({
   selector: 'app-account-info',

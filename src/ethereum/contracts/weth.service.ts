@@ -4,7 +4,7 @@ import Web3, { Contract } from 'web3';
 import { SmartContractService } from './abstract-contract.service';
 import { WETH_CONTRACT } from './constants/weth-contract.const';
 import { SmartContractInfo } from './interfaces';
-import { AddressService } from '../address.service';
+import { AddressService } from '../services/address.service';
 import { Observable, from } from 'rxjs';
 
 @Injectable()

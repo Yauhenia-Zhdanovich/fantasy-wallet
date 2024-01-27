@@ -21,7 +21,7 @@ import {
 import { SmartContractInfo } from '../ethereum/contracts/interfaces';
 import { DaiService } from '../ethereum/contracts/dai.service';
 import { CONTRACTS } from '../ethereum/contracts/contract.token';
-import { AddressService } from '../ethereum/address.service';
+import { AddressService } from '../ethereum/services/address.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
