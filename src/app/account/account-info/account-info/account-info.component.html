@@ -1,3 +1,7 @@
-<div>address {{ address | async }}</div>
-<div>balance {{ ethBalance | async | fromWei: 'ETH' }}</div>
-<div>balance {{ wethBalance | async | fromWei: 'WETH' }}</div>
+<div class="address-block">
+  <span class="address">Address</span><span>{{ address | async }}</span>
+</div>
+<div>
+  <div>Ethereum</div>
+  <div>{{ ethBalance | async | fromWei: 'ETH' }}</div>
+</div>

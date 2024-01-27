@@ -4,6 +4,7 @@ import Web3, { Contract } from 'web3';
 import { SmartContractService } from './abstract-contract.service';
 import { SmartContractInfo } from './interfaces';
 import { DAI_CONTRACT } from './constants/dai-contract.const';
+import { from } from 'rxjs';
 
 @Injectable()
 export class DaiService extends SmartContractService {
@@ -18,10 +19,8 @@ export class DaiService extends SmartContractService {
   }
 
   public getBalanceOf(address: string): any {
-    this.contract.methods['balanceOf'](address)
-      .call()
-      .then(result => {
-        console.log(result);
-      });
+    return from(this.contract.methods['balanceOf'](address).call());
   }
+
+  public transfer(toAddress: string, amount: number) {}
 }

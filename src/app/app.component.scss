@@ -1,12 +1,20 @@
 .main {
   background-color: var(--background-grey);
   height: 100vh;
-  padding-top: 100px;
+
+  .header {
+    font-size: 32px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Silkscreen', sans-serif;
+  }
 }
 
 .content {
   width: 480px;
-  margin: 0 auto;
+  margin: 10px auto 0;
   padding: 50px;
 
   @media (max-width: 480px) {

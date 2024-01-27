@@ -1,0 +1,12 @@
+.address-block {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding-bottom: 10px;
+
+  .address {
+    padding-right: 10px;
+    font-weight: 700;
+    font-size: 18px;
+  }
+}
