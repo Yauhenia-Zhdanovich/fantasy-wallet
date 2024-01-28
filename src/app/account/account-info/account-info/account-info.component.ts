@@ -6,6 +6,7 @@ import { ConvertFromWeiPipe } from '../../../../ethereum/pipes/convert-from-wei.
 import { CONTRACTS } from '../../../../ethereum/contracts/contract.token';
 import { SmartContractService } from '../../../../ethereum/contracts/abstract-contract.service';
 import { EthereumBalanceService } from '../../../../ethereum/services/ethereum-balance.service';
+import { ChainService } from '../../../../ethereum/services/chain.service';
 
 @Component({
   selector: 'app-account-info',
@@ -16,6 +17,7 @@ import { EthereumBalanceService } from '../../../../ethereum/services/ethereum-b
 })
 export class AccountInfoComponent {
   public address: Observable<string> = this.addressService.address$;
+  public chain: Observable<string> = this.chainService.chain$;
   public ethBalance: Observable<string> = this.addressService.address$.pipe(
     filter(address => !!address),
     switchMap(address => this.ethereumBalanceService.fetchBalance(address))
@@ -24,6 +26,7 @@ export class AccountInfoComponent {
   constructor(
     @Inject(CONTRACTS) private contracts: ReadonlyArray<SmartContractService>,
     private addressService: AddressService,
-    private ethereumBalanceService: EthereumBalanceService
+    private ethereumBalanceService: EthereumBalanceService,
+    private chainService: ChainService
   ) {}
 }

@@ -1,5 +1,9 @@
-<div class="address-block">
-  <span class="address">Address</span><span>{{ address | async }}</span>
+<div class="info-block">
+  <span class="chain">{{ chain | async }}</span>
+  <div class="address">
+    <span class="bold">Address</span>
+    <span>{{ address | async }}</span>
+  </div>
 </div>
 <div>
   <div>Ethereum</div>

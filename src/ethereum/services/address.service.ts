@@ -30,13 +30,13 @@ export class AddressService {
     });
   }
 
-  public fetchInitialConnectedAddress(): Observable<string> {
+  private fetchInitialConnectedAddress(): Observable<string> {
     return this.ethereumClient
       .request({ method: 'eth_requestAccounts' })
       .pipe(map(value => value[0]));
   }
 
-  public listenToSelectedAccount(): Observable<string> {
+  private listenToSelectedAccount(): Observable<string> {
     return this.ethereumClient
       .listenToEvent('accountsChanged')
       .pipe(map(value => value[0]));

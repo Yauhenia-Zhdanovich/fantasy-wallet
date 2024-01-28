@@ -1,12 +1,32 @@
-.address-block {
+:host {
+  width: 100%;
+}
+
+.info-block {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   padding-bottom: 10px;
 
+  .chain {
+    align-self: flex-start;
+    width: auto;
+    padding: 4px 10px;
+    background-color: var(--accent);
+    color: var(--white);
+    border-radius: 16px;
+  }
+
   .address {
+    display: flex;
+    flex-direction: column;
     padding-right: 10px;
-    font-weight: 700;
-    font-size: 18px;
+    text-align: center;
+    align-self: center;
+
+    .bold {
+      font-weight: 700;
+      font-size: 18px;
+    }
   }
 }
