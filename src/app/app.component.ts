@@ -2,16 +2,25 @@ import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
-import { AccountInfoComponent } from './account/account-info/account-info/account-info.component';
 import { SmartContractService } from '../ethereum/contracts/abstract-contract.service';
 import { CONTRACTS } from '../ethereum/contracts/contract.token';
+import { TokensComponent } from './tokens/tokens.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { AccountInfoComponent } from './account-info/account-info.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [CommonModule, RouterOutlet, MatCardModule, AccountInfoComponent],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    MatCardModule,
+    AccountInfoComponent,
+    TokensComponent,
+    MatDividerModule,
+  ],
 })
 export class AppComponent {
   constructor(
@@ -24,6 +33,14 @@ export class AppComponent {
     );
     this.contracts[1].getBalanceOf(
       '0xb780F89d37864492A81c7B0053879486d259f16C'
+    );
+  }
+
+  onClick() {
+    console.log('onclick');
+    this.contracts[0].transfer(
+      '0xb780F89d37864492A81c7B0053879486d259f16C',
+      0.0
     );
   }
 }

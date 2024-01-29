@@ -1,12 +1,10 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable, filter, switchMap } from 'rxjs';
-import { AddressService } from '../../../../ethereum/services/address.service';
 import { CommonModule } from '@angular/common';
-import { ConvertFromWeiPipe } from '../../../../ethereum/pipes/convert-from-wei.pipe';
-import { CONTRACTS } from '../../../../ethereum/contracts/contract.token';
-import { SmartContractService } from '../../../../ethereum/contracts/abstract-contract.service';
-import { EthereumBalanceService } from '../../../../ethereum/services/ethereum-balance.service';
-import { ChainService } from '../../../../ethereum/services/chain.service';
+import { ConvertFromWeiPipe } from '../../ethereum/pipes/convert-from-wei.pipe';
+import { AddressService } from '../../ethereum/services/address.service';
+import { EthereumBalanceService } from '../../ethereum/services/ethereum-balance.service';
+import { ChainService } from '../../ethereum/services/chain.service';
 
 @Component({
   selector: 'app-account-info',
@@ -24,7 +22,6 @@ export class AccountInfoComponent {
   );
 
   constructor(
-    @Inject(CONTRACTS) private contracts: ReadonlyArray<SmartContractService>,
     private addressService: AddressService,
     private ethereumBalanceService: EthereumBalanceService,
     private chainService: ChainService

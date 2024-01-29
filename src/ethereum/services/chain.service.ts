@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { EthereumClient } from './ethereum-client';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { chainMap } from '../constants/chains.const';
@@ -19,20 +19,14 @@ export class ChainService {
     })
   );
 
-  constructor(
-    private ethereumClient: EthereumClient,
-    private _ngZone: NgZone
-  ) {
+  constructor(private ethereumClient: EthereumClient) {
     this.listenToChainChanged();
 
     this.fetchInitialChainId().subscribe(chainId =>
       this.chainIdSubject.next(chainId)
     );
-    this.listenToChainChanged().subscribe(chainId => {
-      this._ngZone.run(() => {
-        this.chainIdSubject.next(chainId);
-      });
-    });
+
+    this.listenToChainChanged().subscribe(() => window.location.reload());
   }
 
   private fetchInitialChainId(): Observable<string> {
