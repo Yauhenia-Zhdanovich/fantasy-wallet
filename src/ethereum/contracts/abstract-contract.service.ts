@@ -16,6 +16,7 @@ import { AddressService } from '../services/address.service';
 
 export abstract class SmartContractService {
   public contract: Contract<any>;
+  public symbol: string;
   protected isContractAvailableSubject: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
   protected balanceSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
@@ -45,6 +46,7 @@ export abstract class SmartContractService {
       contractInfo.abi,
       contractInfo.address
     );
+    this.symbol = contractInfo.symbol;
 
     combineLatest([
       this.checkContractAvailability(),
