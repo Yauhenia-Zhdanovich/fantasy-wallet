@@ -8,46 +8,48 @@ import {
   combineLatest,
   distinctUntilChanged,
   filter,
-  forkJoin,
+  map,
   switchMap,
 } from 'rxjs';
-import { ChainService } from '../../ethereum/services/chain.service';
+import { AbstractComponent } from '../../common/abstract.component';
+import { CommonModule } from '@angular/common';
+import { ConvertFromWeiPipe } from '../../ethereum/pipes/convert-from-wei.pipe';
+import { BalanceInfo } from '../../ethereum/contracts/interfaces';
 
 @Component({
   selector: 'tokens',
   standalone: true,
-  imports: [MatListModule],
+  imports: [MatListModule, CommonModule, ConvertFromWeiPipe],
   templateUrl: './tokens.component.html',
   styleUrl: './tokens.component.scss',
 })
-export class TokensComponent {
+export class TokensComponent extends AbstractComponent {
+  public balances: Array<BalanceInfo> = [];
+
   constructor(
     @Inject(CONTRACTS) private contracts: ReadonlyArray<SmartContractService>,
     private ethereumBalanceService: EthereumBalanceService,
-    private addressService: AddressService,
-    private chainService: ChainService
-  ) {}
+    private addressService: AddressService
+  ) {
+    super();
+  }
 
   ngOnInit() {
-    combineLatest([
-      this.chainService.chain$.pipe(filter(value => !!value)),
-      this.addressService.address$.pipe(distinctUntilChanged()),
-    ])
+    this.addressService.address$
       .pipe(
-        switchMap(([chain, address]) => {
-          console.log(chain, address);
-          return forkJoin([
-            ...this.contracts.map(contract => contract.getBalanceOf(address)),
+        distinctUntilChanged(),
+        this.untilComponentDestroyed(),
+        filter(address => !!address),
+        switchMap(address => {
+          return combineLatest([
+            ...this.contracts.map(contract => contract.balance$),
             this.ethereumBalanceService.fetchBalance(address),
           ]);
-        })
+        }),
+        map(balances => balances.filter(balance => balance !== null))
       )
-      .subscribe(val => {
-        console.log(val);
+      .subscribe(balances => {
+        this.balances = balances;
       });
-    // forkJoin([this.addressService])
-    // merge(...this.contracts.map(contract => contract.getBalanceOf(this.addressService))).subscribe(console.log);
-    // concatAll([])
-    // this.contracts.forEach((contract) => {
   }
 }

@@ -27,15 +27,6 @@ export class AppComponent {
     @Inject(CONTRACTS) private contracts: ReadonlyArray<SmartContractService>
   ) {}
 
-  ngOnInit() {
-    this.contracts[0].getBalanceOf(
-      '0xb780F89d37864492A81c7B0053879486d259f16C'
-    );
-    this.contracts[1].getBalanceOf(
-      '0xb780F89d37864492A81c7B0053879486d259f16C'
-    );
-  }
-
   onClick() {
     console.log('onclick');
     this.contracts[0].transfer(

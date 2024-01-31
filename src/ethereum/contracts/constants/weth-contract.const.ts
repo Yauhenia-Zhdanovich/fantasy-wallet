@@ -7,6 +7,8 @@ export const WETH_CONTRACT = new InjectionToken<SmartContractInfo>(
 export const WETH_CONTRACT_ADDRESS =
   '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
 
+export const WETH_CONTRACT_TOKEN_NAME = 'Wrapped Ether';
+export const WETH_CONTRACT_SYMBOL = 'WETH';
 export const WETH_CONTRACT_ABI = [
   {
     constant: true,
@@ -165,4 +167,6 @@ export const WETH_CONTRACT_INFO: SmartContractInfo = {
   name: SmartContractName.Weth,
   abi: WETH_CONTRACT_ABI,
   address: WETH_CONTRACT_ADDRESS,
+  tokenName: WETH_CONTRACT_TOKEN_NAME,
+  symbol: WETH_CONTRACT_SYMBOL,
 };

@@ -4,14 +4,16 @@ import Web3 from 'web3';
 import { SmartContractService } from './abstract-contract.service';
 import { SmartContractInfo } from './interfaces';
 import { DAI_CONTRACT } from './constants/dai-contract.const';
+import { AddressService } from '../services/address.service';
 
 @Injectable()
 export class DaiService extends SmartContractService {
   constructor(
     @Inject(WEB_3) web3: Web3,
-    @Inject(DAI_CONTRACT) contractInfo: SmartContractInfo
+    @Inject(DAI_CONTRACT) contractInfo: SmartContractInfo,
+    addressService: AddressService
   ) {
-    super(web3, contractInfo);
+    super(web3, contractInfo, addressService);
   }
 
   public transfer(toAddress: string, amount: number) {}

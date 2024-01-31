@@ -4,14 +4,16 @@ import Web3 from 'web3';
 import { SmartContractService } from './abstract-contract.service';
 import { WETH_CONTRACT } from './constants/weth-contract.const';
 import { SmartContractInfo } from './interfaces';
+import { AddressService } from '../services/address.service';
 
 @Injectable()
 export class WethService extends SmartContractService {
   constructor(
     @Inject(WEB_3) web3: Web3,
-    @Inject(WETH_CONTRACT) contractInfo: SmartContractInfo
+    @Inject(WETH_CONTRACT) contractInfo: SmartContractInfo,
+    addressService: AddressService
   ) {
-    super(web3, contractInfo);
+    super(web3, contractInfo, addressService);
   }
 
   public async transfer(toAddress: string, amount: number) {

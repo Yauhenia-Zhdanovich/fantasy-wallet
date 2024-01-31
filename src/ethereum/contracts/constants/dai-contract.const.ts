@@ -8,6 +8,9 @@ export const DAI_CONTRACT = new InjectionToken<SmartContractInfo>(
 export const DAI_CONTRACT_ADDRESS =
   '0x6B175474E89094C44Da98b954EedeAC495271d0F';
 
+export const DAI_CONTRACT_TOKEN_NAME = 'Dai Stablecoin';
+export const DAI_CONTRACT_SYMBOL = 'DAI';
+
 export const DAI_CONTRACT_ABI = [
   {
     inputs: [{ internalType: 'uint256', name: 'chainId_', type: 'uint256' }],
@@ -289,4 +292,6 @@ export const DAI_CONTRACT_INFO: SmartContractInfo = {
   name: SmartContractName.Dai,
   abi: DAI_CONTRACT_ABI,
   address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+  tokenName: DAI_CONTRACT_TOKEN_NAME,
+  symbol: DAI_CONTRACT_SYMBOL,
 };

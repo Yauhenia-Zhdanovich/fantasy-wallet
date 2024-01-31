@@ -21,6 +21,7 @@ import {
 import { SmartContractInfo } from '../ethereum/contracts/interfaces';
 import { DaiService } from '../ethereum/contracts/dai.service';
 import { CONTRACTS } from '../ethereum/contracts/contract.token';
+import { AddressService } from '../ethereum/services/address.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,16 +35,19 @@ export const appConfig: ApplicationConfig = {
       useFactory: (
         web3: Web3,
         wethContract: SmartContractInfo,
-        inj: Injector
-      ) => new WethService(web3, wethContract),
-      deps: [WEB_3, WETH_CONTRACT, Injector],
+        addressService: AddressService
+      ) => new WethService(web3, wethContract, addressService),
+      deps: [WEB_3, WETH_CONTRACT, AddressService],
       multi: true,
     },
     {
       provide: CONTRACTS,
-      useFactory: (web3: Web3, daiContract: SmartContractInfo) =>
-        new DaiService(web3, daiContract),
-      deps: [WEB_3, DAI_CONTRACT],
+      useFactory: (
+        web3: Web3,
+        daiContract: SmartContractInfo,
+        addressService: AddressService
+      ) => new DaiService(web3, daiContract, addressService),
+      deps: [WEB_3, DAI_CONTRACT, AddressService],
       multi: true,
     },
 

@@ -1,2 +1,12 @@
-<h3>Tokens</h3>
-<mat-list role="list"> </mat-list>
+<h3 class="heading">Tokens</h3>
+@for (balance of balances; track balance) {
+  <mat-list role="list">
+    <mat-list-item>
+      <div>
+        <div>{{ balance.symbol }}</div>
+        <div>{{ balance.tokenName }}</div>
+        <h4 mat-line>{{ balance.balance | fromWei: balance.symbol }}</h4>
+      </div>
+    </mat-list-item>
+  </mat-list>
+}
