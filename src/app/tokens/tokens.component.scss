@@ -2,3 +2,33 @@
   margin: 5px 0;
   text-align: center;
 }
+
+.balance-info {
+  display: grid;
+  grid-template-areas:
+    'icon name'
+    'icon balance';
+  grid-template-columns: 50px 1fr;
+
+  .icon {
+    background-color: var(--accent-light);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    grid-area: icon;
+  }
+
+  .name {
+    grid-area: name;
+    font-weight: 500;
+  }
+
+  .balance {
+    grid-area: balance;
+    font-size: 14px;
+    color: var(--light-grey);
+  }
+}

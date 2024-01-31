@@ -2,10 +2,12 @@
 @for (balance of balances; track balance) {
   <mat-list role="list">
     <mat-list-item>
-      <div>
-        <div>{{ balance.symbol }}</div>
-        <div>{{ balance.tokenName }}</div>
-        <h4 mat-line>{{ balance.balance | fromWei: balance.symbol }}</h4>
+      <div class="balance-info">
+        <div class="icon">{{ balance.symbol | firstLetter }}</div>
+        <div class="name">{{ balance.tokenName }}</div>
+        <div class="balance">
+          {{ balance.balance | fromWei: balance.symbol }}
+        </div>
       </div>
     </mat-list-item>
   </mat-list>
