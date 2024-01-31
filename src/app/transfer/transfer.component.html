@@ -1,0 +1,53 @@
+<form class="transfer-form" [formGroup]="form">
+  <mat-form-field class="address-input">
+    <mat-label>Send To</mat-label>
+    <input matInput formControlName="address" />
+    @if (form.get('address')?.hasError('required')) {
+      <mat-error>This field is required</mat-error>
+    }
+    @if (form.get('address')?.hasError('minlength')) {
+      <mat-error>Address is too short</mat-error>
+    }
+    @if (form.get('address')?.hasError('maxlength')) {
+      <mat-error>Address is too long</mat-error>
+    }
+  </mat-form-field>
+  <div class="two-controls-row">
+    <mat-form-field class="asset">
+      <mat-label>Asset</mat-label>
+      <mat-select formControlName="asset">
+        @for (balance of tokenInfo; track balance) {
+          <mat-option [value]="balance.symbol">
+            <span class="token-info-option">
+              <span>{{ balance.symbol }} </span>
+              <span class="balance"
+                >Balance: {{ balance.balance | fromWei: balance.symbol }}</span
+              >
+            </span>
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Amount</mat-label>
+      <input type="number" matInput formControlName="value" />
+    </mat-form-field>
+  </div>
+  <div class="two-controls-row">
+    <button
+      (click)="onCancel()"
+      class="btn-stretch"
+      mat-stroked-button
+      color="accent">
+      Cancel
+    </button>
+    <button
+      class="btn-stretch"
+      [disabled]="!form.valid"
+      (click)="onSubmit()"
+      mat-flat-button
+      color="accent">
+      Send
+    </button>
+  </div>
+</form>

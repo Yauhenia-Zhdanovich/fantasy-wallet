@@ -1,14 +1,13 @@
-<h3 class="heading">Tokens</h3>
-@for (balance of balances; track balance) {
-  <mat-list role="list">
-    <mat-list-item>
-      <div class="balance-info">
-        <div class="icon">{{ balance.symbol | firstLetter }}</div>
-        <div class="name">{{ balance.tokenName }}</div>
-        <div class="balance">
+<mat-list role="list">
+  @for (balance of balances; track balance) {
+    <mat-list-item class="balance-item" role="listitem">
+      <span class="balance-info">
+        <span class="icon">{{ balance.symbol | firstLetter }}</span>
+        <span class="name">{{ balance.tokenName }}</span>
+        <span class="balance">
           {{ balance.balance | fromWei: balance.symbol }}
-        </div>
-      </div>
+        </span>
+      </span>
     </mat-list-item>
-  </mat-list>
-}
+  }
+</mat-list>

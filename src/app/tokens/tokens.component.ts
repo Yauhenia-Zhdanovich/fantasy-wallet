@@ -16,11 +16,18 @@ import { CommonModule } from '@angular/common';
 import { ConvertFromWeiPipe } from '../../ethereum/pipes/convert-from-wei.pipe';
 import { BalanceInfo } from '../../ethereum/contracts/interfaces';
 import { FirstLetterPipe } from '../../common/first-letter-pipe/first-letter.pipe';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'tokens',
   standalone: true,
-  imports: [MatListModule, CommonModule, ConvertFromWeiPipe, FirstLetterPipe],
+  imports: [
+    MatListModule,
+    CommonModule,
+    ConvertFromWeiPipe,
+    FirstLetterPipe,
+    MatButtonModule,
+  ],
   templateUrl: './tokens.component.html',
   styleUrl: './tokens.component.scss',
 })

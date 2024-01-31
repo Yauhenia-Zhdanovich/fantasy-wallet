@@ -7,6 +7,8 @@ import { CONTRACTS } from '../ethereum/contracts/contract.token';
 import { TokensComponent } from './tokens/tokens.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { AccountInfoComponent } from './account-info/account-info.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { TransferComponent } from './transfer/transfer.component';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +22,8 @@ import { AccountInfoComponent } from './account-info/account-info.component';
     AccountInfoComponent,
     TokensComponent,
     MatDividerModule,
+    MatTabsModule,
+    TransferComponent,
   ],
 })
 export class AppComponent {

@@ -1,9 +1,9 @@
-.heading {
-  margin: 5px 0;
-  text-align: center;
+.balance-item {
+  height: unset !important;
 }
 
 .balance-info {
+  padding: 10px 0;
   display: grid;
   grid-template-areas:
     'icon name'

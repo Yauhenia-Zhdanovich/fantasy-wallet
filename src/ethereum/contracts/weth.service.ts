@@ -17,25 +17,25 @@ export class WethService extends SmartContractService {
   }
 
   public async transfer(toAddress: string, amount: number) {
-    // try {
-    //   console.log(this.web3.utils.toWei(amount.toString(), 'ether'));
-    //   const gas = await this.contract.methods['transfer'](
-    //     toAddress,
-    //     this.web3.utils.toWei(amount.toString(), 'ether')
-    //   ).estimateGas({
-    //     from: this.accountService.currentAddress,
-    //   });
-    //   await this.contract.methods['transfer'](
-    //     toAddress,
-    //     this.web3.utils.toWei(amount.toString(), 'ether')
-    //   ).send({
-    //     from: this.accountService.currentAddress,
-    //     gas: gas.toString(),
-    //   });
-    //   console.log('Token transfer successful!');
-    // } catch (error) {
-    //   console.error('Error transferring tokens:', error);
-    //   throw error;
-    // }
+    try {
+      console.log(this.web3.utils.toWei(amount.toString(), 'ether'));
+      const gas = await this.contract.methods['transfer'](
+        toAddress,
+        this.web3.utils.toWei(amount.toString(), 'ether')
+      ).estimateGas({
+        from: this.addressService.currentAddress,
+      });
+      await this.contract.methods['transfer'](
+        toAddress,
+        this.web3.utils.toWei(amount.toString(), 'ether')
+      ).send({
+        from: this.addressService.currentAddress,
+        gas: gas.toString(),
+      });
+      console.log('Token transfer successful!');
+    } catch (error) {
+      console.error('Error transferring tokens:', error);
+      throw error;
+    }
   }
 }
