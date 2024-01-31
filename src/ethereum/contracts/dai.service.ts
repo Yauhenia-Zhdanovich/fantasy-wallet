@@ -15,6 +15,4 @@ export class DaiService extends SmartContractService {
   ) {
     super(web3, contractInfo, addressService);
   }
-
-  public transfer(toAddress: string, amount: number) {}
 }

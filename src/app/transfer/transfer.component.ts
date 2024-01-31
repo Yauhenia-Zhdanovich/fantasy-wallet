@@ -88,24 +88,25 @@ export class TransferComponent extends AbstractComponent {
           this.form.get('address')?.value as string,
           parsedAmount
         )
-        .subscribe(this.onSubmitResolve);
+        .subscribe(this.cleanForm);
     } else {
       const contract = this.contracts.find(
         contract => contract.symbol === selectedContract
       );
-      contract?.transfer(
-        this.form.get('address')?.value as string,
-        this.form.get('value')?.value as any
-      );
+      contract
+        ?.transfer(
+          this.form.get('address')?.value as string,
+          this.form.get('value')?.value as any
+        )
+        .subscribe(this.cleanForm);
     }
   }
 
   public onCancel() {
-    this.form.reset();
-    this.form.get('asset')?.setValue(this.tokenInfo[0].symbol);
+    this.cleanForm();
   }
 
-  private onSubmitResolve = () => {
+  private cleanForm = () => {
     this.form.reset();
     this.form.enable();
     this.form.get('asset')?.setValue(this.tokenInfo[0].symbol);

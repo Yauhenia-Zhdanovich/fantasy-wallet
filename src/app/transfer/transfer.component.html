@@ -36,6 +36,7 @@
   <div class="two-controls-row">
     <button
       (click)="onCancel()"
+      [disabled]="form.disabled"
       class="btn-stretch"
       mat-stroked-button
       color="accent">

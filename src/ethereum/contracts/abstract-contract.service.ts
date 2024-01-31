@@ -1,6 +1,7 @@
 import {
   BehaviorSubject,
   Observable,
+  catchError,
   combineLatest,
   from,
   map,
@@ -70,5 +71,30 @@ export abstract class SmartContractService {
     return from(this.contract.methods['balanceOf'](address).call());
   }
 
-  public abstract transfer(toAddress: string, amount: number): any;
+  public transfer(toAddress: string, amount: number) {
+    return from(
+      this.contract.methods['transfer'](
+        toAddress,
+        this.web3.utils.toWei(amount.toString(), 'ether')
+      ).estimateGas({
+        from: this.addressService.currentAddress,
+      })
+    ).pipe(
+      switchMap(gas =>
+        from(
+          this.contract.methods['transfer'](
+            toAddress,
+            this.web3.utils.toWei(amount.toString(), 'ether')
+          ).send({
+            from: this.addressService.currentAddress,
+            gas: gas.toString(),
+          })
+        )
+      ),
+      catchError(err => {
+        console.log(err);
+        return of(err);
+      })
+    );
+  }
 }
