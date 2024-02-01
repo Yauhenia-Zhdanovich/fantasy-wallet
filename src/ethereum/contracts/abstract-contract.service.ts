@@ -14,6 +14,7 @@ import { WEB_3 } from '../constants/web3.const';
 import { Inject } from '@angular/core';
 import { DAI_CONTRACT } from './constants/dai-contract.const';
 import { AddressService } from '../services/address.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export abstract class SmartContractService {
   public contract: Contract<any>;
@@ -41,7 +42,8 @@ export abstract class SmartContractService {
   constructor(
     @Inject(WEB_3) protected web3: Web3,
     @Inject(DAI_CONTRACT) protected contractInfo: SmartContractInfo,
-    protected addressService: AddressService
+    protected addressService: AddressService,
+    private _snackBar: MatSnackBar
   ) {
     this.contract = new web3.eth.Contract(
       contractInfo.abi,
@@ -56,19 +58,32 @@ export abstract class SmartContractService {
       .pipe(
         switchMap(([isAvailable, address]) =>
           isAvailable && address ? this.getBalanceOf(address) : of(null)
-        )
+        ),
+        catchError(err => {
+          this._snackBar.open(err.message, 'Dismiss');
+          throw err;
+        })
       )
       .subscribe(this.balanceSubject);
   }
 
   public checkContractAvailability(): Observable<boolean> {
     return from(this.web3.eth.getCode(this.contractInfo.address)).pipe(
-      map(bytecode => bytecode !== '0x')
+      map(bytecode => bytecode !== '0x'),
+      catchError(err => {
+        this._snackBar.open(err.message, 'Dismiss');
+        throw err;
+      })
     );
   }
 
   public getBalanceOf(address: string): Observable<any> {
-    return from(this.contract.methods['balanceOf'](address).call());
+    return from(this.contract.methods['balanceOf'](address).call()).pipe(
+      catchError(err => {
+        this._snackBar.open(err.message, 'Dismiss');
+        throw err;
+      })
+    );
   }
 
   public transfer(toAddress: string, amount: number) {
@@ -92,8 +107,8 @@ export abstract class SmartContractService {
         )
       ),
       catchError(err => {
-        console.log(err);
-        return of(err);
+        this._snackBar.open(err.message, 'Dismiss');
+        throw err;
       })
     );
   }

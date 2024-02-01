@@ -8,6 +8,7 @@ import {
 import { BalanceInfo } from '../contracts/interfaces';
 import { WEB_3 } from '../constants/web3.const';
 import Web3 from 'web3';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,8 @@ import Web3 from 'web3';
 export class EthereumBalanceService {
   constructor(
     private ethereumClient: EthereumClient,
-    @Inject(WEB_3) private web3: Web3
+    @Inject(WEB_3) private web3: Web3,
+    private _snackBar: MatSnackBar
   ) {}
 
   public fetchBalance(address: string): Observable<BalanceInfo> {
@@ -29,7 +31,11 @@ export class EthereumBalanceService {
           balance: value,
           tokenName: ETHEREUM_COIN_NAME,
           symbol: ETHEREUM_COIN_SYMBOL,
-        }))
+        })),
+        catchError(err => {
+          this._snackBar.open(err.message, 'Dismiss');
+          throw err;
+        })
       );
   }
 
@@ -46,8 +52,8 @@ export class EthereumBalanceService {
       })
     ).pipe(
       catchError(err => {
-        console.log(err);
-        return of(err);
+        this._snackBar.open(err.message, 'Dismiss');
+        throw err;
       })
     );
   }

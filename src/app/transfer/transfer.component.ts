@@ -23,6 +23,13 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { ConvertFromWeiPipe } from '../../ethereum/pipes/convert-from-wei.pipe';
 import { ethers } from 'ethers';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
+
+const SUCCESS_MESSAGE = 'You have successfully transferred! Transaction hash: ';
 
 @Component({
   selector: 'transfer',
@@ -38,6 +45,9 @@ import { ethers } from 'ethers';
   styleUrl: './transfer.component.scss',
 })
 export class TransferComponent extends AbstractComponent {
+  private horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  private verticalPosition: MatSnackBarVerticalPosition = 'top';
+
   public form = new FormGroup({
     address: new FormControl('', [
       Validators.required,
@@ -52,7 +62,8 @@ export class TransferComponent extends AbstractComponent {
   constructor(
     @Inject(CONTRACTS) private contracts: ReadonlyArray<SmartContractService>,
     private ethereumBalanceService: EthereumBalanceService,
-    private addressService: AddressService
+    private addressService: AddressService,
+    private _snackBar: MatSnackBar
   ) {
     super();
     this.addressService.address$
@@ -88,7 +99,10 @@ export class TransferComponent extends AbstractComponent {
           this.form.get('address')?.value as string,
           parsedAmount
         )
-        .subscribe(this.cleanForm);
+        .subscribe(({ transactionHash }) => {
+          this.showSuccessMessage(transactionHash);
+          this.cleanForm();
+        });
     } else {
       const contract = this.contracts.find(
         contract => contract.symbol === selectedContract
@@ -98,7 +112,10 @@ export class TransferComponent extends AbstractComponent {
           this.form.get('address')?.value as string,
           this.form.get('value')?.value as any
         )
-        .subscribe(this.cleanForm);
+        .subscribe(({ transactionHash }) => {
+          this.showSuccessMessage(transactionHash);
+          this.cleanForm();
+        });
     }
   }
 
@@ -110,5 +127,12 @@ export class TransferComponent extends AbstractComponent {
     this.form.reset();
     this.form.enable();
     this.form.get('asset')?.setValue(this.tokenInfo[0].symbol);
+  };
+
+  private showSuccessMessage = (transactionHash: string) => {
+    this._snackBar.open(`${SUCCESS_MESSAGE} ${transactionHash}`, 'Close', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
   };
 }

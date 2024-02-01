@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { EthereumClient } from './ethereum-client';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,8 @@ export class AddressService {
 
   constructor(
     private ethereumClient: EthereumClient,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private _snackBar: MatSnackBar
   ) {
     this.fetchInitialConnectedAddress().subscribe(address =>
       this.addressSubject.next(address)
@@ -31,14 +33,22 @@ export class AddressService {
   }
 
   private fetchInitialConnectedAddress(): Observable<string> {
-    return this.ethereumClient
-      .request({ method: 'eth_requestAccounts' })
-      .pipe(map(value => value[0]));
+    return this.ethereumClient.request({ method: 'eth_requestAccounts' }).pipe(
+      map(value => value[0]),
+      catchError(err => {
+        this._snackBar.open(err.message, 'Dismiss');
+        throw err;
+      })
+    );
   }
 
   private listenToSelectedAccount(): Observable<string> {
-    return this.ethereumClient
-      .listenToEvent('accountsChanged')
-      .pipe(map(value => value[0]));
+    return this.ethereumClient.listenToEvent('accountsChanged').pipe(
+      map(value => value[0]),
+      catchError(err => {
+        this._snackBar.open(err.message, 'Dismiss');
+        throw err;
+      })
+    );
   }
 }

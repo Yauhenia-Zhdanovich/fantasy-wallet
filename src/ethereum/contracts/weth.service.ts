@@ -5,14 +5,16 @@ import { SmartContractService } from './abstract-contract.service';
 import { WETH_CONTRACT } from './constants/weth-contract.const';
 import { SmartContractInfo } from './interfaces';
 import { AddressService } from '../services/address.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class WethService extends SmartContractService {
   constructor(
     @Inject(WEB_3) web3: Web3,
     @Inject(WETH_CONTRACT) contractInfo: SmartContractInfo,
-    addressService: AddressService
+    addressService: AddressService,
+    snackBar: MatSnackBar
   ) {
-    super(web3, contractInfo, addressService);
+    super(web3, contractInfo, addressService, snackBar);
   }
 }
